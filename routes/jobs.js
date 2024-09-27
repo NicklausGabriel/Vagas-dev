@@ -7,6 +7,30 @@ router.get('/test', (req, res) => {
     res.send('deu certo');
 });
 
+//detalhe da vaga
+router.get('/view/:id', (req, res) => {
+    Job.findOne({
+        where: { id: req.params.id }
+    })
+    .then(job => {
+        if (job) {
+            res.render('view', {
+                job 
+            });
+        } else {
+            res.status(404).send('Job not found');
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).send('Server Error');
+    });
+});
+
+
+//form da rota de envio 
+
+//deta
 // Rota para exibir o formulário de adicionar vaga
 router.get('/add', (req, res) => {
     res.render('add');  // Renderiza a view 'add.handlebars'
