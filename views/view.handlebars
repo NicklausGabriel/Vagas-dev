@@ -1,6 +1,6 @@
 <div id="job-view-container" class="container">
     <div class="row text-center">
-        <a href="/" class="back-link main-color">Voltar</a> <!-- Corrigi o href para redirecionar para a página inicial -->
+        <a href="/" class="back-link main-color">Voltar</a>
         <div id="img-container" class="col-md-12">
             <img src="/img/company.svg" alt="Company">
         </div>
@@ -12,7 +12,10 @@
             <p>
                 Para trabalhar na <span class="bold main-color">{{job.dataValues.company}}</span>, envie um e-mail para <a class="bold main-color" href="mailto:{{job.dataValues.email}}">{{job.dataValues.email}}</a>
             </p>
+            <form action="/jobs/delete/{{job.dataValues.id}}" method="POST">
+                <input type="hidden" name="_method" value="DELETE"> <!-- Override do método DELETE -->
+                <button type="submit" class="btn btn-danger mt-3">Excluir Vaga</button>
+            </form>
         </div>
     </div>
 </div>
-s

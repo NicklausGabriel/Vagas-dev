@@ -6,15 +6,18 @@ const db            =require('./db/connection');
 const bodyParser    =require('body-parser');
 const Job           =require('./models/Job');
 const Sequelize     =require('sequelize');
+const methodOverride = require('method-override');
 const Op            =Sequelize.Op;
 
+require('dotenv').config(); 
 
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 app.listen(PORT, function(){
-    console.log(`O Express está rodando na porta ${PORT}`);
+    console.log(`Servidor rodando na porta ${PORT}`);
 });
 
+app.use(methodOverride('_method'));
 //body Parser
 app.use(bodyParser.urlencoded({extends:false}));
 
@@ -27,17 +30,15 @@ app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, 'public')));
 
 //db connection
-db
-    .authenticate()
-    .then(()=>{
-        console.log("conectou ao banco com sucesso");
-    })
-    .catch(
-        err =>{
-            console.log("Ocorreu um erro ao conectar", err)
-        });
-
-
+async function conectarBanco() {
+    try{
+        await db.authenticate();
+        console.log("Conectou ao banco com sucesso");
+    }catch(err){
+        console.log("Ocorreu erro ao conectar ao banco de dados")
+    }
+}
+conectarBanco();
 //routes
 app.get('/',(req, res)=>{
 
